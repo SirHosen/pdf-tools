@@ -1,61 +1,160 @@
-# PDF Tools Server – Cara Menjalankan (Linux)
+# 📄 PDF Tools Server
 
-Server Node.js ini menyediakan beberapa endpoint untuk konversi file (Word ↔ PDF, JPG/PNG ↔ PDF, resize/kompres, dll). Ada skrip Python yang dipanggil untuk konversi PDF → Word.
+Server **Node.js** dengan integrasi **Python** untuk berbagai konversi file:  
+- Word ↔ PDF  
+- JPG/PNG ↔ PDF  
+- PDF → Word  
+- Resize & Kompres PDF/JPG  
 
-## Prasyarat
+---
+
+## ⚙️ Setup & Menjalankan di Windows
+
+### 🧩 Prasyarat
+Pastikan semua komponen berikut sudah terinstal:
+
+- [Node.js LTS](https://nodejs.org/) (sertakan **npm**)
+- [Python 3.8+](https://www.python.org/downloads/) (pastikan `python` & `pip` ada di PATH)
+- [LibreOffice](https://www.libreoffice.org/download/download/)
+- [Ghostscript](https://www.ghostscript.com/download/gsdnld.html)
+- [Poppler for Windows](https://github.com/oschwartz10612/poppler-windows/releases)
+
+> 💡 Tambahkan folder `bin` Poppler (misal:  
+> `C:\tools\poppler\bin`) ke **PATH** agar perintah `pdftoppm.exe` dapat dipanggil dari Command Prompt.
+
+---
+
+### 🚀 Langkah Setup
+
+1. Buka **Command Prompt (cmd)** di folder root proyek.
+2. Buat dan siapkan virtual environment Python:
+   ```bat
+   python -m venv venv
+   venv\Scripts\activate
+   python -m pip install --upgrade pip
+   pip install -r requirements.txt
+   deactivate
+````
+
+3. Install dependensi Node.js:
+
+   ```bat
+   npm install
+   ```
+4. Pastikan folder untuk upload/static tersedia:
+
+   ```bat
+   mkdir uploads
+   mkdir public
+   ```
+
+---
+
+### ▶️ Menjalankan Server
+
+```bat
+npm start
+```
+
+Server akan berjalan di:
+👉 [http://localhost:5005](http://localhost:5005)
+
+---
+
+### ⚠️ Catatan Penting
+
+* Jika muncul error `command not found` untuk `libreoffice`, `gs`, atau `pdftoppm`, pastikan:
+
+  * Semua sudah diinstal.
+  * PATH sudah benar.
+* Untuk LibreOffice di Windows, CLI biasanya:
+
+  ```
+  soffice
+  ```
+
+  atau
+
+  ```
+  soffice.exe
+  ```
+* Cek Poppler:
+
+  ```bat
+  pdftoppm -v
+  ```
+
+  Jika muncul versi, berarti sudah benar.
+
+---
+
+## 🐧 Setup & Menjalankan di Linux
+
+Server Node.js ini menyediakan endpoint untuk konversi file melalui skrip Python (`pdf2docx`, `poppler`, dll).
+
+---
+
+### 🧩 Prasyarat
 
 Install paket sistem berikut (Debian/Ubuntu):
 
 ```bash
 sudo apt update
 sudo apt install -y libreoffice ghostscript poppler-utils python3-venv python3-pip
-# Opsional (kalau build native Node diperlukan)
+# Opsional (untuk build native Node.js)
 sudo apt install -y build-essential
 ```
 
-Keterangan:
-- libreoffice: untuk konversi Word/Excel → PDF
-- ghostscript (gs): untuk downgrade/kompres PDF (versi 1.4)
-- poppler-utils (pdftoppm): untuk PDF → JPG
-- python3-venv/pip: untuk membuat venv Python dan instal `pdf2docx`
+**Keterangan:**
 
-## Setup proyek
+* `libreoffice` → konversi Word/Excel → PDF
+* `ghostscript (gs)` → downgrade/kompres PDF (versi 1.4)
+* `poppler-utils (pdftoppm)` → PDF → JPG
+* `python3-venv`/`pip` → venv & instalasi `pdf2docx`
 
-Jalankan perintah berikut dari folder proyek (perhatikan ada spasi pada nama folder):
+---
+
+### 🔧 Setup Proyek
+
+Jalankan di folder root proyek:
 
 ```bash
-cd "/home/hosea/httpd/website convert pdf"
-
-# 1) Buat virtualenv Python di root proyek dan install dependen Python
+# 1) Virtualenv Python
 python3 -m venv venv
 source venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 deactivate
 
-# 2) Install dependensi Node.js
+# 2) Dependensi Node.js
 npm install
 
-# 3) Pastikan folder upload/static ada
+# 3) Folder upload/static
 mkdir -p uploads public
 ```
 
-Catatan penting: `server.js` memanggil Python dari `./venv/bin/python`. Pastikan Anda membuat venv dengan nama `venv` tepat di root proyek agar path tersebut valid.
+> ⚠️ Catatan: `server.js` memanggil Python dari `./venv/bin/python`.
+> Pastikan nama folder venv **tepat "venv"** dan berada di root proyek.
 
-## Menjalankan server
+---
+
+### ▶️ Menjalankan Server
 
 ```bash
-cd "/home/hosea/httpd/website convert pdf"
 npm start
 ```
 
-Server akan berjalan di: http://localhost:5005
+Server akan berjalan di:
+👉 [http://localhost:5005](http://localhost:5005)
 
-CORS saat ini mengizinkan origin `http://localhost:5005`. Jika Anda memanggil dari domain/port berbeda, sesuaikan setting CORS di `server.js`.
+> CORS default mengizinkan origin `http://localhost:5005`.
+> Jika memanggil dari domain lain, ubah pengaturan CORS di `server.js`.
 
-## Uji cepat (contoh curl)
+---
 
-- PDF → Word (menghasilkan DOCX sebagai respons)
+## 🧪 Uji Cepat (Contoh `curl`)
+
+### PDF → Word
 
 ```bash
 curl -X POST http://localhost:5005/convert-pdf-to-word \
@@ -63,7 +162,7 @@ curl -X POST http://localhost:5005/convert-pdf-to-word \
   -o converted.docx
 ```
 
-- Word → PDF (menghasilkan PDF sebagai respons)
+### Word → PDF
 
 ```bash
 curl -X POST http://localhost:5005/convert-word-to-pdf \
@@ -71,7 +170,7 @@ curl -X POST http://localhost:5005/convert-word-to-pdf \
   -o converted.pdf
 ```
 
-- JPG/PNG → PDF
+### JPG/PNG → PDF
 
 ```bash
 curl -X POST http://localhost:5005/convert-jpg-to-pdf \
@@ -79,7 +178,7 @@ curl -X POST http://localhost:5005/convert-jpg-to-pdf \
   -o converted.pdf
 ```
 
-- PDF → JPG (halaman pertama)
+### PDF → JPG (halaman pertama)
 
 ```bash
 curl -X POST http://localhost:5005/convert-pdf-to-jpg \
@@ -87,16 +186,17 @@ curl -X POST http://localhost:5005/convert-pdf-to-jpg \
   -o converted.jpg
 ```
 
-- Resize JPG (tentukan width/height)
+### Resize JPG
 
 ```bash
 curl -X POST "http://localhost:5005/resize-jpg" \
   -F "imageFile=@/path/ke/gambar.jpg" \
-  -F "width=800" -F "height=600" \
+  -F "width=800" \
+  -F "height=600" \
   -o resized.jpg
 ```
 
-- Kompres/Downgrade PDF ke versi 1.4
+### Kompres / Downgrade PDF (versi 1.4)
 
 ```bash
 curl -X POST http://localhost:5005/resize-pdf \
@@ -104,39 +204,28 @@ curl -X POST http://localhost:5005/resize-pdf \
   -o compressed.pdf
 ```
 
-## Menjalankan di background (opsional)
+---
 
-Paket `pm2` sudah ada di dependencies. Anda bisa menjalankan seperti ini:
+## 🧭 Menjalankan di Background (Opsional)
+
+Gunakan **pm2** (sudah termasuk di dependencies):
 
 ```bash
 npx pm2 start server.js --name pdf-tools
 npx pm2 logs pdf-tools
 ```
 
-## Troubleshooting umum
+---
 
-- Command tidak ditemukan:
-  - `gs`: install `ghostscript` (lihat prasyarat)
-  - `libreoffice`: install `libreoffice`
-  - `pdftoppm`: install `poppler-utils`
+## 🩺 Troubleshooting Umum
 
-- PDF → Word gagal dengan error `lxml` saat install `pdf2docx`:
-  - Coba install dev packages lalu ulangi install `pdf2docx`:
-    ```bash
-    sudo apt install -y libxml2-dev libxslt1-dev
-    source venv/bin/activate && pip install --no-cache-dir --force-reinstall lxml pdf2docx && deactivate
-    ```
+| Masalah                                         | Solusi                                                                                                                                                                                                       |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `gs`, `libreoffice`, `pdftoppm` tidak ditemukan | Pastikan paket sistem sudah diinstal                                                                                                                                                                         |
+| PDF → Word gagal karena `lxml`                  | Instal dev package lalu reinstal dependensi: <br> `sudo apt install -y libxml2-dev libxslt1-dev` <br> `source venv/bin/activate && pip install --no-cache-dir --force-reinstall lxml pdf2docx && deactivate` |
+| Error `sharp` saat `npm install`                | Jalankan: `npm rebuild sharp`                                                                                                                                                                                |
+| Upload gagal (ENOENT)                           | Buat folder: `mkdir -p uploads`                                                                                                                                                                              |
+| Port 5005 sudah dipakai                         | Ubah konstanta `PORT` di `server.js`                                                                                                                                                                         |
 
-- `sharp` error saat `npm install` (jarang, biasanya binary prebuilt tersedia):
-  - Pastikan `build-essential` terinstal. Atau coba:
-    ```bash
-    npm rebuild sharp
-    ```
+---
 
-- Folder `uploads` tidak ada → upload gagal (ENOENT):
-  - Buat folder `uploads` secara manual: `mkdir -p uploads`
-
-- Port 5005 sudah dipakai:
-  - Ubah konstanta `PORT` di `server.js` lalu jalankan ulang.
-
-Selamat mencoba! Jika butuh UI sederhana (HTML form) di folder `public/`, beri tahu saya, saya bisa tambahkan. 
