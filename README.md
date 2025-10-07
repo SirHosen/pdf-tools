@@ -1,26 +1,27 @@
+
 # 📄 PDF Tools Server
 
-Server **Node.js** dengan integrasi **Python** untuk berbagai konversi file:  
-- Word ↔ PDF  
-- JPG/PNG ↔ PDF  
-- PDF → Word  
-- Resize & Kompres PDF/JPG  
+Server **Node.js** + **Python** untuk berbagai konversi file:
+
+- **Word ↔ PDF**
+- **JPG/PNG ↔ PDF**
+- **PDF → Word**
+- **Resize & Kompres PDF/JPG**
 
 ---
 
-## ⚙️ Setup & Menjalankan di Windows
+
+## ⚙️ Setup & Jalankan di Windows
 
 ### 🧩 Prasyarat
-Pastikan semua komponen berikut sudah terinstal:
 
-- [Node.js LTS](https://nodejs.org/) (sertakan **npm**)
-- [Python 3.8+](https://www.python.org/downloads/) (pastikan `python` & `pip` ada di PATH)
+- [Node.js LTS](https://nodejs.org/) (**npm** sudah termasuk)
+- [Python 3.8+](https://www.python.org/downloads/) (`python` & `pip` ada di PATH)
 - [LibreOffice](https://www.libreoffice.org/download/download/)
 - [Ghostscript](https://www.ghostscript.com/download/gsdnld.html)
 - [Poppler for Windows](https://github.com/oschwartz10612/poppler-windows/releases)
 
-> 💡 Tambahkan folder `bin` Poppler (misal:  
-> `C:\tools\poppler\bin`) ke **PATH** agar perintah `pdftoppm.exe` dapat dipanggil dari Command Prompt.
+> 💡 Tambahkan folder `bin` Poppler (misal: `C:\tools\poppler\bin`) ke **PATH** agar perintah `pdftoppm.exe` bisa dipanggil dari Command Prompt.
 
 ---
 
@@ -28,25 +29,22 @@ Pastikan semua komponen berikut sudah terinstal:
 
 1. Buka **Command Prompt (cmd)** di folder root proyek.
 2. Buat dan siapkan virtual environment Python:
-   ```bat
-   python -m venv venv
-   venv\Scripts\activate
-   python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   deactivate
-````
-
+  ```bat
+  python -m venv venv
+  venv\Scripts\activate
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt
+  deactivate
+  ```
 3. Install dependensi Node.js:
-
-   ```bat
-   npm install
-   ```
+  ```bat
+  npm install
+  ```
 4. Pastikan folder untuk upload/static tersedia:
-
-   ```bat
-   mkdir uploads
-   mkdir public
-   ```
+  ```bat
+  mkdir uploads
+  mkdir public
+  ```
 
 ---
 
@@ -56,43 +54,29 @@ Pastikan semua komponen berikut sudah terinstal:
 npm start
 ```
 
-Server akan berjalan di:
-👉 [http://localhost:5005](http://localhost:5005)
+Server akan berjalan di: [http://localhost:5005](http://localhost:5005)
 
 ---
 
 ### ⚠️ Catatan Penting
 
-* Jika muncul error `command not found` untuk `libreoffice`, `gs`, atau `pdftoppm`, pastikan:
-
-  * Semua sudah diinstal.
-  * PATH sudah benar.
-* Untuk LibreOffice di Windows, CLI biasanya:
-
-  ```
-  soffice
-  ```
-
-  atau
-
-  ```
-  soffice.exe
-  ```
-* Cek Poppler:
-
+- Jika muncul error `command not found` untuk `libreoffice`, `gs`, atau `pdftoppm`, pastikan semua sudah diinstal dan PATH sudah benar.
+- Untuk LibreOffice di Windows, CLI biasanya `soffice` atau `soffice.exe` (otomatis dideteksi library backend).
+- Untuk Poppler, cek dengan:
   ```bat
   pdftoppm -v
   ```
-
   Jika muncul versi, berarti sudah benar.
 
 ---
 
-## 🐧 Setup & Menjalankan di Linux
+
+## 🐧 Setup & Jalankan di Linux
 
 Server Node.js ini menyediakan endpoint untuk konversi file melalui skrip Python (`pdf2docx`, `poppler`, dll).
 
 ---
+
 
 ### 🧩 Prasyarat
 
@@ -107,12 +91,13 @@ sudo apt install -y build-essential
 
 **Keterangan:**
 
-* `libreoffice` → konversi Word/Excel → PDF
-* `ghostscript (gs)` → downgrade/kompres PDF (versi 1.4)
-* `poppler-utils (pdftoppm)` → PDF → JPG
-* `python3-venv`/`pip` → venv & instalasi `pdf2docx`
+- `libreoffice` → konversi Word/Excel → PDF
+- `ghostscript (gs)` → downgrade/kompres PDF (versi 1.4)
+- `poppler-utils (pdftoppm)` → PDF → JPG
+- `python3-venv`/`pip` → venv & instalasi `pdf2docx`
 
 ---
+
 
 ### 🔧 Setup Proyek
 
@@ -138,19 +123,20 @@ mkdir -p uploads public
 
 ---
 
+
 ### ▶️ Menjalankan Server
 
 ```bash
 npm start
 ```
 
-Server akan berjalan di:
-👉 [http://localhost:5005](http://localhost:5005)
+Server akan berjalan di: [http://localhost:5005](http://localhost:5005)
 
 > CORS default mengizinkan origin `http://localhost:5005`.
 > Jika memanggil dari domain lain, ubah pengaturan CORS di `server.js`.
 
 ---
+
 
 ## 🧪 Uji Cepat (Contoh `curl`)
 
@@ -206,6 +192,7 @@ curl -X POST http://localhost:5005/resize-pdf \
 
 ---
 
+
 ## 🧭 Menjalankan di Background (Opsional)
 
 Gunakan **pm2** (sudah termasuk di dependencies):
@@ -216,6 +203,7 @@ npx pm2 logs pdf-tools
 ```
 
 ---
+
 
 ## 🩺 Troubleshooting Umum
 
