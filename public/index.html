@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF Tools</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar glass">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="url(#g1)"/><path d="M10 16h12M16 10l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs></svg>
+          </div>
+          <div>
+            <h1>PDF & File Studio</h1>
+            <p>Konversi file cepat, elegan, profesional.</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="container grid animated-cards">
+        <section class="tool card" data-endpoint="/convert-pdf-to-word">
+          <header>
+            <h2>PDF → Word (.docx)</h2>
+            <p>Ubah dokumen PDF menjadi DOCX yang dapat diedit.</p>
+          </header>
+          <form class="tool-form" id="form-pdf2word">
+            <div class="dropzone" data-accept="application/pdf">
+              <input type="file" name="pdfFile" accept="application/pdf" required />
+              <span>Seret & lepas PDF ke sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/convert-word-to-pdf">
+          <header>
+            <h2>Word → PDF</h2>
+            <p>Konversi DOC/DOCX ke PDF versi 1.4 yang kompatibel.</p>
+          </header>
+          <form class="tool-form" id="form-word2pdf">
+            <div class="dropzone" data-accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+              <input type="file" name="wordFile" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required />
+              <span>Seret & lepas Word di sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/convert-jpg-to-pdf">
+          <header>
+            <h2>JPG/PNG → PDF</h2>
+            <p>Gabungkan gambar tunggal menjadi satu halaman PDF.</p>
+          </header>
+          <form class="tool-form" id="form-img2pdf">
+            <div class="dropzone" data-accept="image/jpeg,image/png">
+              <input type="file" name="imageFile" accept="image/jpeg,image/png" required />
+              <span>Seret & lepas gambar di sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/convert-pdf-to-jpg">
+          <header>
+            <h2>PDF → JPG (hal. 1)</h2>
+            <p>Ekstrak halaman pertama PDF menjadi gambar JPG.</p>
+          </header>
+          <form class="tool-form" id="form-pdf2jpg">
+            <div class="dropzone" data-accept="application/pdf">
+              <input type="file" name="pdfFile" accept="application/pdf" required />
+              <span>Seret & lepas PDF di sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/resize-jpg">
+          <header>
+            <h2>Resize JPG</h2>
+            <p>Ubah ukuran gambar (tetapkan salah satu atau kedua dimensi).</p>
+          </header>
+          <form class="tool-form" id="form-resize-jpg">
+            <div class="dropzone" data-accept="image/jpeg">
+              <input type="file" name="imageFile" accept="image/jpeg" required />
+              <span>Seret & lepas JPG di sini, atau klik untuk memilih</span>
+            </div>
+            <div class="row">
+              <label class="field">
+                <span>Lebar (px)</span>
+                <input type="number" name="width" min="1" step="1" placeholder="auto" />
+              </label>
+              <label class="field">
+                <span>Tinggi (px)</span>
+                <input type="number" name="height" min="1" step="1" placeholder="auto" />
+              </label>
+            </div>
+            <div class="controls">
+              <label class="switch">
+                <input type="checkbox" id="lock-aspect" checked />
+                <span>Kunci rasio</span>
+              </label>
+              <div class="chips" aria-label="Preset ukuran">
+                <button type="button" class="chip" data-width="800">800w</button>
+                <button type="button" class="chip" data-width="1200">1200w</button>
+                <button type="button" class="chip" data-width="1920">1920w</button>
+              </div>
+            </div>
+            <small class="help">Isi salah satu (lebar/tinggi). Jika "Kunci rasio" aktif, nilai lain dihitung otomatis.</small>
+            <button class="btn primary" type="submit">Resize</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/resize-pdf">
+          <header>
+            <h2>Kompres / Downgrade PDF</h2>
+            <p>Optimalkan ukuran file dan kompatibilitas (PDF 1.4).</p>
+          </header>
+          <form class="tool-form" id="form-resize-pdf">
+            <div class="dropzone" data-accept="application/pdf">
+              <input type="file" name="pdfFile" accept="application/pdf" required />
+              <span>Seret & lepas PDF di sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Proses</button>
+          </form>
+        </section>
+
+        <section class="tool card" data-endpoint="/convert-excel-to-pdf">
+          <header>
+            <h2>Excel → PDF</h2>
+            <p>Konversi XLS/XLSX ke PDF versi 1.4.</p>
+          </header>
+          <form class="tool-form" id="form-excel2pdf">
+            <div class="dropzone" data-accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+              <input type="file" name="excelFile" accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+              <span>Seret & lepas Excel di sini, atau klik untuk memilih</span>
+            </div>
+            <button class="btn primary" type="submit">Convert</button>
+          </form>
+        </section>
+
+        <section class="output card">
+          <header>
+            <h2>Hasil</h2>
+          </header>
+          <div id="preview" class="preview">Belum ada hasil.</div>
+          <div class="actions">
+            <a id="download-link" class="btn hidden" download>Download hasil</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <small>Server lokal: http://localhost:5005</small>
+      </footer>
+    </div>
+
+    <div id="toasts" class="toasts" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
